@@ -29,7 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.appdelclima.ui.theme.AppDelClimaTheme
 import repository.modelos.Ciudad
 
 
@@ -41,9 +43,9 @@ fun CiudadesView(
 ) {
     var value by remember { mutableStateOf("") }
 
-    // Lista de ciudades por defecto
     val ciudadesPorDefecto = obtenerCiudadesPorDefecto()
 
+    AppDelClimaTheme(darkTheme = true) {
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp)
@@ -97,10 +99,12 @@ fun CiudadesView(
             onAction(CiudadesIntencion.Seleccionar(ciudadSeleccionada))
         }
     }
+    }
 }
 
 @Composable
 fun ListaDeCiudades(ciudades: List<Ciudad>, onSelect: (Ciudad) -> Unit) {
+    AppDelClimaTheme(darkTheme = true) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -120,7 +124,7 @@ fun ListaDeCiudades(ciudades: List<Ciudad>, onSelect: (Ciudad) -> Unit) {
                 }
             }
         }
-    }
+    }}
 }
 
 
@@ -134,4 +138,67 @@ fun obtenerCiudadesPorDefecto(): List<Ciudad> {
         Ciudad(name = "Londres", lat = 51.5074f, lon = -0.1278f, country = "Reino Unido"),
         Ciudad(name = "Tokio", lat = 35.6895f, lon = 139.6917f, country = "Japón")
     )
+}
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun CiudadesViewPreview_Cargando() {
+    AppDelClimaTheme(darkTheme = true) {
+        CiudadesView(
+            state = CiudadesEstado.Cargando,
+            onAction = {}
+        )
+    }
+
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CiudadesViewPreview_Error() {
+    AppDelClimaTheme(darkTheme = true) {
+    CiudadesView(
+        state = CiudadesEstado.Error("Error al cargar las ciudades"),
+        onAction = {}
+    )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CiudadesViewPreview_Resultado() {
+    AppDelClimaTheme(darkTheme = true) {
+    CiudadesView(
+        state = CiudadesEstado.Resultado(
+            ciudades = listOf(
+                Ciudad(name = "Buenos Aires", lat = -34.6037f, lon = -58.3816f, country = "Argentina", state = "Buenos Aires"),
+                Ciudad(name = "Madrid", lat = 40.4168f, lon = -3.7038f, country = "España", state = "Comunidad de Madrid")
+            )
+        ),
+        onAction = {}
+    )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CiudadesViewPreview_Vacio() {
+    AppDelClimaTheme(darkTheme = true) {
+    CiudadesView(
+        state = CiudadesEstado.Vacio,
+        onAction = {}
+    )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ListaDeCiudadesPreview() {
+    AppDelClimaTheme(darkTheme = true) {
+        ListaDeCiudades(
+            ciudades = obtenerCiudadesPorDefecto(),
+            onSelect = {}
+        )
+    }
 }

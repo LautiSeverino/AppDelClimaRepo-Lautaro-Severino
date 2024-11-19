@@ -32,18 +32,28 @@ class PronosticoViewModel(
         viewModelScope.launch {
             try {
                 // Obtener los datos del repositorio
-                val forecast = repositorio.obtenerPronostico(nombre)
-                    .groupBy { it.dt_txt.substring(0, 10) } // Agrupa por día usando la fecha
-                    .map { (_, pronosticosPorDia) ->
-                        pronosticosPorDia.first()
+                val pronosticos = repositorio.obtenerPronostico(nombre)
+
+                // Agrupar los datos por fecha y calcular temperaturas mínimas y máximas
+                val forecast = pronosticos
+                    .groupBy { it.dt_txt.substring(0, 10) } // Agrupar por fecha (YYYY-MM-DD)
+                    .map { (fecha, pronosticosPorDia) ->
+                        pronosticosPorDia.first().copy(
+                            main = pronosticosPorDia.first().main.copy(
+                                temp_max = pronosticosPorDia.maxOf { it.main.temp_max },
+                                temp_min = pronosticosPorDia.minOf { it.main.temp_min }
+                            )
+                        )
                     }
 
+                // Actualizar el estado con los datos procesados
                 uiState = PronosticoEstado.Exitoso(forecast)
             } catch (exception: Exception) {
                 uiState = PronosticoEstado.Error(exception.localizedMessage ?: "Error desconocido")
             }
         }
     }
+
 
     private fun cambiarCiudad() {
         // Navegar a la ruta de selección de ciudades

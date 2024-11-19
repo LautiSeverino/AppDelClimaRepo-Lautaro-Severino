@@ -12,36 +12,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-//private val DarkColorScheme = darkColorScheme(
-//    primary = Purple80,
-//    secondary = PurpleGrey80,
-//    tertiary = Pink80
-//)
-
-private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF6200EE),  // Un color morado oscuro para el tema oscuro
-    secondary = Color(0xFF03DAC6),  // Un color verde claro
-    tertiary = Color(0xFFBB86FC),  // Un color morado claro
-    background = Color(0xFF121212),  // Color de fondo oscuro
-    surface = Color(0xFF121212),  // Superficie oscura
-    onPrimary = Color.White,  // Texto blanco sobre el color primario
-    onSecondary = Color.Black  // Texto negro sobre el color secundario
-)
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    primary = AzulProfundo,
+    primaryContainer = GrisOscuro,
+    secondary = VerdeOscuro,
+    error = RojoSuave,
+    background = GrisOscuro,
     onPrimary = Color.White,
     onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    onBackground = BlancoSuave,
+    onError = Color.White
+)
+
+private val DarkColorScheme = darkColorScheme(
+    primary = AzulProfundo,
+    primaryContainer = GrisOscuro,
+    secondary = VerdeOscuro,
+    error = RojoSuave,
+    background = GrisOscuro,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = BlancoSuave,
+    onError = Color.White
 )
 
 @Composable

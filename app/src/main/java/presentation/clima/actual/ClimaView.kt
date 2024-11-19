@@ -18,18 +18,18 @@ fun ClimaView(
     estado: ClimaEstado,
     onAccion: (ClimaIntencion) -> Unit
 ) {
-    // Ejecutar acción al reanudar la pantalla
+
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         onAccion(ClimaIntencion.actualizarClima)
     }
-
+    AppDelClimaTheme(darkTheme = true) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Mostrar contenido según el estado actual
+
         when (estado) {
             is ClimaEstado.Error -> ErrorVista(mensaje = estado.mensaje)
             is ClimaEstado.Exitoso -> DetalleClimaVista(
@@ -43,32 +43,43 @@ fun ClimaView(
             else -> {}
         }
     }
+    }
 }
 
 @Composable
 fun MensajeVista(mensaje: String) {
-    Text(text = mensaje, style = MaterialTheme.typography.bodyLarge)
+    AppDelClimaTheme(darkTheme = true) {
+        Text(text = mensaje, style = MaterialTheme.typography.bodyLarge)
+    }
 }
 
 @Composable
 fun ErrorVista(mensaje: String) {
-    Text(text = "Error: $mensaje", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyLarge)
+    AppDelClimaTheme(darkTheme = true) {
+        Text(
+            text = "Error: $mensaje",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
 }
 
 @Composable
 fun DetalleClimaVista(ciudad: String, temperatura: Double, descripcion: String, sensacionTermica: Double) {
+    AppDelClimaTheme(darkTheme = true) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = ciudad, style = MaterialTheme.typography.titleMedium)
         Text(text = "${temperatura}°", style = MaterialTheme.typography.displayMedium)
         Text(text = descripcion.capitalize(), style = MaterialTheme.typography.bodyLarge)
         Text(text = "Sensación térmica: ${sensacionTermica}°", style = MaterialTheme.typography.bodyMedium)
     }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun VistaVacioPreview() {
-    AppDelClimaTheme {
+    AppDelClimaTheme(darkTheme = true) {
         ClimaView(estado = ClimaEstado.Vacio, onAccion = {})
     }
 }
@@ -76,7 +87,7 @@ fun VistaVacioPreview() {
 @Preview(showBackground = true)
 @Composable
 fun VistaErrorPreview() {
-    AppDelClimaTheme {
+    AppDelClimaTheme(darkTheme = true) {
         ClimaView(estado = ClimaEstado.Error("No se pudo obtener el clima"), onAccion = {})
     }
 }
@@ -84,7 +95,7 @@ fun VistaErrorPreview() {
 @Preview(showBackground = true)
 @Composable
 fun VistaExitosoPreview() {
-    AppDelClimaTheme {
+    AppDelClimaTheme(darkTheme = true) {
         ClimaView(
             estado = ClimaEstado.Exitoso(
                 ciudad = "San Miguel de Tucumán",
